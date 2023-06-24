@@ -1,0 +1,28 @@
+{
+  "name": "react-mercure",
+  "version": "0.1.0",
+  "description": "React hook that make working with Mercure easy",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fabious/react-mercure.git"
+  },
+  "keywords": [
+    "react",
+    "hooks",
+    "mercure",
+    "eventsource",
+    "sse",
+    "server-sent",
+    "events"
+  ],
+  "author": "Fabious",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Fabious/react-mercure/issues"
+  },
+  "homepage": "https://github.com/Fabious/react-mercure#readme"
+}
