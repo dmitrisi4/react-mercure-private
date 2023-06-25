@@ -1,13 +1,18 @@
+import { useMercure } from "../../src/useMercure";
 const url = new URL("https://localhost/.well-known/mercure");
 url.searchParams.append("topic", "foo");
 
-const eventSource = new EventSource(url);
-eventSource.onmessage = (e) => console.log(e); // do something with the payload
-
 function App() {
+  const { messages } = useMercure(url);
+
   return (
     <div>
       <h1>React Mercure demo:</h1>
+      <ul>
+        {messages.map((msg, i) => (
+          <li key={i}>Message pinged!</li>
+        ))}
+      </ul>
     </div>
   );
 }

@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
 
-export function useMercure() {
-  const [state] = useState("to be implemented");
+export function useMercure(url: string | URL) {
+  const [messages, setMessages] = useState<MessageEvent[]>([]);
 
   useEffect(() => {
-    console.log("mount");
-  }, []);
+    const source = new EventSource(url);
+    source.onmessage = (e) => {
+      console.log(JSON.parse(e.data));
+      setMessages((prevMessages) => [...prevMessages, e]);
+    };
 
-  // To Be Implemented
-  return { state };
+    return () => {
+      source.close();
+    };
+  }, [url]);
+
+  return { messages };
 }

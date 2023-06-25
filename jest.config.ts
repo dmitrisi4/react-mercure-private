@@ -4,6 +4,6 @@ export default {
   coverageReporters: ["text"],
   testEnvironment: "jsdom",
   transform: {
-    "^.+\\.ts$": "ts-jest",
-  },
+    "^.+\\.ts$": "ts-jest"
+  }
 };
