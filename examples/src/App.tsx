@@ -1,16 +1,22 @@
 import { useMercure } from "../../src/useMercure";
-const url = new URL("https://localhost/.well-known/mercure");
-url.searchParams.append("topic", "foo");
+
+const MERCURE_HUB_URL = "https://localhost/.well-known/mercure";
 
 function App() {
-  const { messages } = useMercure(url);
+  const { messages, status } = useMercure(MERCURE_HUB_URL, ["foo"]);
 
   return (
     <div>
       <h1>React Mercure demo:</h1>
+      <h2>Connection status: {status}</h2>
       <ul>
         {messages.map((msg, i) => (
-          <li key={i}>Message pinged!</li>
+          <li key={i}>
+            Message pinged!
+            <br />
+            Data received:
+            <pre>{JSON.stringify(msg, null, 2)}</pre>
+          </li>
         ))}
       </ul>
     </div>
