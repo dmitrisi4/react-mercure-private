@@ -18,19 +18,14 @@ function App() {
 }
 
 function MercureComponent() {
-  const { messages, status } = useMercure(MERCURE_HUB_URL, ["foo"]);
+  const { data, status } = useMercure(MERCURE_HUB_URL, [
+    "https://example.com/my-private-topic"
+  ]);
 
   return (
     <div>
       <h2>Connection status: {status}</h2>
-      <ul>
-        {messages.map((msg, i) => (
-          <li key={i}>
-            Message received!
-            <pre>{JSON.stringify(msg, null, 2)}</pre>
-          </li>
-        ))}
-      </ul>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
 }
