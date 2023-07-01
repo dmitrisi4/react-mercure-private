@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
-import { useEventSource } from "./useEventSource";
-import MockEventSource, { sources } from "./__mocks__/EventSource";
+import { useEventSource } from "../useEventSource";
+import MockEventSource, { sources } from "../__mocks__/EventSource";
 
 Object.defineProperty(window, "EventSource", {
   writable: true,

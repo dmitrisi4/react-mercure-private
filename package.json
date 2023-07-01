@@ -4,6 +4,8 @@
   "description": "React hook that make working with Mercure easy",
   "main": "index.js",
   "scripts": {
+    "clean": "rm -rf lib/*",
+    "build": "yarn run clean && yarn run tsc",
     "lint": "eslint --ext ts,tsx ./src",
     "test": "jest",
     "test:watch": "jest --watch"
