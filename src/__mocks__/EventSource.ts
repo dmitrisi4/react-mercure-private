@@ -1,61 +1,58 @@
 // EventSource mock
 // https://html.spec.whatwg.org/multipage/server-sent-events.html#eventsource
 
-export const sources: { [key: string]: EventSourceMock } = {};
+export const sources: { [key: string]: MockEventSource } = {};
 
-class EventSourceMock implements EventSource {
-  readonly CONNECTING = 0;
-  readonly OPEN = 1;
-  readonly CLOSED = 2;
+class MockEventSource {
+  private url: string;
+  private listeners: { [event: string]: Array<(event: MessageEvent) => void> };
+  public readyState: number;
 
-  onerror: ((this: EventSource, ev: Event) => void) | null;
-  onmessage: ((this: EventSource, ev: MessageEvent<any>) => void) | null;
-  onopen: ((this: EventSource, ev: Event) => void) | null;
+  constructor(url: string) {
+    this.listeners = {};
+    this.readyState = 1;
+    this.url = url;
 
-  readyState: number;
-  url: string;
-  withCredentials: boolean;
-
-  constructor(url: string | URL, eventSourceInitDict?: EventSourceInit) {
-    this.readyState = this.CONNECTING;
-    this.url = url.toString();
-    this.withCredentials = eventSourceInitDict?.withCredentials || false;
-
-    // Spy all sources subscribed to EventSourceMock
-    sources[url.toString()] = this;
+    sources[url] = this;
   }
 
-  close(): void {
-    this.readyState = this.CLOSED;
+  addEventListener(event: string, callback: (event: MessageEvent) => void) {
+    if (!this.listeners[event]) {
+      this.listeners[event] = [];
+    }
+    this.listeners[event].push(callback);
   }
 
-  addEventListener<K extends keyof EventSourceEventMap>(
-    type: K,
-    listener: (this: EventSource, ev: EventSourceEventMap[K]) => any
-  ): void {
-    throw new Error("Method not implemented.");
+  removeEventListener(event: string, callback: (event: MessageEvent) => void) {
+    if (this.listeners[event]) {
+      const index = this.listeners[event].indexOf(callback);
+      if (index !== -1) {
+        this.listeners[event].splice(index, 1);
+      }
+    }
   }
 
-  removeEventListener<K extends keyof EventSourceEventMap>(
-    type: K,
-    listener: (this: EventSource, ev: EventSourceEventMap[K]) => any
-  ): void {
-    throw new Error("Method not implemented.");
+  dispatchEvent(event: MessageEvent) {
+    if (this.listeners[event.type]) {
+      this.listeners[event.type].forEach((callback) => {
+        callback(event);
+      });
+    }
   }
 
-  dispatchEvent(event: Event): boolean {
-    throw new Error("Method not implemented.");
+  close() {
+    delete sources[this.url];
   }
 
-  // Simulates connection tentative
-  emitOpen() {
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        this.readyState = this.OPEN;
-        resolve();
-      }, 50);
-    });
+  set onmessage(callback: (this: EventSource, ev: MessageEvent) => unknown) {
+    this.addEventListener("message", callback);
+  }
+
+  // Simulate receiving an SSE event
+  receiveEvent(eventName: string, eventData: unknown) {
+    const event = new MessageEvent(eventName, { data: eventData });
+    this.dispatchEvent(event);
   }
 }
 
-export default EventSourceMock;
+export default MockEventSource;
