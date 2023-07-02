@@ -2,7 +2,7 @@
   "name": "react-mercure",
   "version": "0.1.0",
   "description": "React hook that make working with Mercure easy",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "clean": "rm -rf lib/*",
     "build": "yarn run clean && yarn run tsc",
@@ -11,7 +11,7 @@
     "test:watch": "jest --watch"
   },
   "peerDependencies": {
-    "react": "^16.9.0 || ^17.0.0 || ^18.0.0"
+    "react": ">=16"
   },
   "devDependencies": {
     "@testing-library/react": "^14.0.0",

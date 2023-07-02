@@ -13,7 +13,7 @@ export function useMercure<T = unknown>(url: string | URL, topic: string[]) {
     setData(data);
   };
 
-  const { status } = useEventSource<T>(mercureURL, eventHandler);
+  const { isConnected } = useEventSource<T>(mercureURL, eventHandler);
 
-  return { data, status };
+  return { data, isConnected };
 }

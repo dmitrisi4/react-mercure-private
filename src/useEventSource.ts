@@ -4,11 +4,11 @@ export function useEventSource<T = unknown>(
   url: string | URL,
   eventHandler: (data: T) => void
 ) {
-  const [status, setStatus] = useState<0 | 1 | 2>(EventSource.CONNECTING);
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     const eventSource = new EventSource(url);
-    setStatus(EventSource.OPEN);
+    setIsConnected(true);
 
     eventSource.onmessage = (e: MessageEvent<T>) => eventHandler(e.data);
 
@@ -16,9 +16,9 @@ export function useEventSource<T = unknown>(
     return () => {
       // Close the EventSource connection
       eventSource.close();
-      setStatus(EventSource.CLOSED);
+      setIsConnected(false);
     };
   }, [url, eventHandler]);
 
-  return { status };
+  return { isConnected };
 }

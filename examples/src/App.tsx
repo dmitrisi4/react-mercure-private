@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useMercure } from "../../src/useMercure";
+import { useMercure } from "react-mercure";
 
 const MERCURE_HUB_URL = "https://localhost/.well-known/mercure";
 
@@ -18,13 +18,13 @@ function App() {
 }
 
 function MercureComponent() {
-  const { data, status } = useMercure(MERCURE_HUB_URL, [
+  const { data, isConnected } = useMercure(MERCURE_HUB_URL, [
     "https://example.com/my-private-topic"
   ]);
 
   return (
     <div>
-      <h2>Connection status: {status}</h2>
+      <h2>Connection status: {isConnected ? "Connected" : "Connecting..."}</h2>
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
