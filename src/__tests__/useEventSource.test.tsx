@@ -11,7 +11,7 @@ describe("useEventSource", () => {
   const url = "http://example.com/events";
   const eventHandler = jest.fn();
 
-  it("should call the eventHandler with the received event data", async () => {
+  it("should call the eventHandler with the received event data", () => {
     const testData = { message: "Hello, EventSource!" };
 
     renderHook(() => useEventSource(url, eventHandler));
