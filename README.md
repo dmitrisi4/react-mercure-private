@@ -10,13 +10,14 @@ React hook that make working with [Mercure](https://mercure.rocks/) easy
 
 ## Quickstart
 
-```jsx
-import { useMercure} from 'react-mercure';
+```tsx
+import { useMercure } from 'react-mercure';
 
 const url = "http://example.com/events";
+const AUTH_TOKEN = 'auth_token';
 
 function Example() {
-  const { data, isConnected } = useMercure<string>(url, ['topic1', 'topic2']);
+  const { data, isConnected } = useMercure<string>(url, ['topic1', 'topic2'], AUTH_TOKEN);
 
   return (
     <div>
@@ -35,4 +36,5 @@ function Example() {
 ## Author
 
 - [@Fabious](https://www.github.com/Fabious)
+- [@dmitrisi4](https://github.com/dmitrisi4)
 

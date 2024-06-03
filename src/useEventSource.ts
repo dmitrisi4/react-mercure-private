@@ -1,16 +1,26 @@
 import { useEffect, useState } from "react";
+import { EventSourcePolyfill } from 'event-source-polyfill';
 
 export function useEventSource<T = unknown>(
-  url: string | URL,
-  eventHandler: (data: T) => void
+  url: string,
+  eventHandler: (data: T) => void,
+  token: string
 ) {
   const [isConnected, setIsConnected] = useState(false);
 
+  const eventSourceInitDict = {
+    headers: { 'Authorization': `Bearer ${token}` }
+  };
+
   useEffect(() => {
-    const eventSource = new EventSource(url);
+    const eventSource = new EventSourcePolyfill(url, eventSourceInitDict);
     setIsConnected(true);
 
-    eventSource.onmessage = (e: MessageEvent<T>) => eventHandler(e.data);
+    const customHandler = (e: MessageEvent<T>) => {
+      eventHandler(e.data);
+    };
+
+    eventSource.onmessage = customHandler as any;
 
     // Clean up function
     return () => {

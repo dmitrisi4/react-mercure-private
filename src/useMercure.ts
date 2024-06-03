@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useEventSource } from "./useEventSource";
 
-export function useMercure<T = unknown>(url: string | URL, topic: string[]) {
+export function useMercure<T = unknown>(url: string | URL, topic: string[], token: string) {
   const [data, setData] = useState<T>();
 
   const mercureURL = new URL(url);
@@ -13,7 +13,7 @@ export function useMercure<T = unknown>(url: string | URL, topic: string[]) {
     setData(data);
   };
 
-  const { isConnected } = useEventSource<T>(mercureURL, eventHandler);
+  const { isConnected } = useEventSource<T>(mercureURL.toString(), eventHandler, token);
 
   return { data, isConnected };
 }
