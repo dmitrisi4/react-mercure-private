@@ -2,12 +2,6 @@
 
 React hook that make working with [Mercure](https://mercure.rocks/) easy
 
-## Installation
-
-```bash
-  npm install react-mercure
-```
-
 ## Quickstart
 
 ```tsx
